@@ -2,97 +2,115 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>🌿 Hinkar Traders - Spice Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hinkar Traders - Spice Stock</title>
+    <link rel="stylesheet" href="style.css"> <!-- Your CSS file -->
     <style>
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: Arial, sans-serif;
+            background: #f8f3e9;
             margin: 0;
             padding: 0;
-            background-color: #f4f7f6;
-            color: #333;
+        }
+        header {
+            background-color: #d35400;
+            color: white;
+            padding: 20px;
             text-align: center;
         }
-
-        header {
-            background-color: #2e7d32;
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 28px;
-        }
-
-        nav {
-            margin: 20px 0;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #2e7d32;
-            margin: 0 15px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        nav a:hover {
-            color: #1b5e20;
-        }
-
-        .content {
-            max-width: 800px;
-            margin: 0 auto;
+        h1 { margin: 0; }
+        main {
             padding: 20px;
         }
-
-        .content h2 {
-            color: #2e7d32;
-            margin-bottom: 15px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
-
-        .content p {
-            font-size: 16px;
-            line-height: 1.6;
+        table, th, td {
+            border: 1px solid #aaa;
         }
-
-        footer {
-            background-color: #2e7d32;
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #e67e22;
             color: white;
-            padding: 15px 0;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #d35400;
+            color: white;
             margin-top: 40px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #e67e22;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            background-color: #d35400;
         }
     </style>
 </head>
 <body>
-
     <header>
-        <h1>🌿 Hinkar Traders</h1>
-        <p>Your Trusted Spice Shop</p>
+        <h1>Hinkar Traders - Spice Stock</h1>
     </header>
 
-    <nav>
-        <a href="#">Home</a>
-        <a href="#">Spices</a>
-        <a href="#">About Us</a>
-        <a href="#">Contact</a>
-    </nav>
+    <main>
+        <h2>Available Spices</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Spice Name</th>
+                    <th>Quantity (kg)</th>
+                    <th>Price (₹ per kg)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Turmeric</td>
+                    <td>50</td>
+                    <td>300</td>
+                </tr>
+                <tr>
+                    <td>Red Chili</td>
+                    <td>30</td>
+                    <td>400</td>
+                </tr>
+                <tr>
+                    <td>Coriander</td>
+                    <td>20</td>
+                    <td>200</td>
+                </tr>
+                <tr>
+                    <td>Black Pepper</td>
+                    <td>10</td>
+                    <td>600</td>
+                </tr>
+                <tr>
+                    <td>Cumin</td>
+                    <td>25</td>
+                    <td>350</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <div class="content">
-        <h2>Welcome to Hinkar Traders!</h2>
-        <p>
-            We offer the freshest and finest quality spices for your kitchen. Browse through our collection of aromatic spices, carefully sourced to ensure maximum flavor and quality.
-        </p>
-
-        <p>
-            Visit our shop or contact us to place your order today!
-        </p>
-    </div>
+        <a href="#" class="btn">Add New Spice</a>
+    </main>
 
     <footer>
         © 2026 Hinkar Traders. All rights reserved.
     </footer>
-
 </body>
 </html>
