@@ -1,0 +1,191 @@
+-- Create the database
+CREATE DATABASE IF NOT EXISTS spice_shop CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE spice_shop;
+
+-- --------------------------------------------------------
+-- Table structure for table `bills`
+-- --------------------------------------------------------
+CREATE TABLE `bills` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `invoice_no` varchar(50) NOT NULL,
+  `buyer_name` varchar(100) DEFAULT NULL,
+  `buyer_phone` varchar(20) DEFAULT NULL,
+  `total_amount` decimal(10,2) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `invoice_no` (`invoice_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Sample data for `bills`
+INSERT INTO `bills` (`id`, `invoice_no`, `buyer_name`, `buyer_phone`, `total_amount`, `created_at`) VALUES
+(11, 'HT-459F3B', 'BALA', '34534534', '148.00', '2026-03-13 09:23:26'),
+(19, 'HT-C427FB', 'HARISWARAN', '9789279375', '660.00', '2026-03-13 09:35:20'),
+(20, 'HT-60991F', 'HINKAR', '1234567891', '720.00', '2026-03-13 09:40:25'),
+(21, 'HT-498D35', 'hari', '234234234', '199.00', '2026-03-13 09:47:41'),
+(22, 'HT-37AF2B', 'HARISH', '1233467888', '1395.00', '2026-03-13 09:57:13');
+
+-- --------------------------------------------------------
+-- Table structure for table `bill_headers`
+-- --------------------------------------------------------
+CREATE TABLE `bill_headers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `invoice_no` varchar(50) NOT NULL,
+  `buyer_name` varchar(100) NOT NULL,
+  `buyer_gstin` varchar(15) DEFAULT NULL,
+  `buyer_phone` varchar(15) DEFAULT NULL,
+  `buyer_address` text DEFAULT NULL,
+  `place_of_supply` varchar(50) DEFAULT NULL,
+  `payment_mode` enum('cash','credit','upi','bank') DEFAULT 'cash',
+  `transport_name` varchar(100) DEFAULT NULL,
+  `vehicle_no` varchar(20) DEFAULT NULL,
+  `total_amount` decimal(15,2) DEFAULT NULL,
+  `invoice_date` date NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `invoice_no` (`invoice_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+-- Table structure for table `bill_items`
+-- --------------------------------------------------------
+CREATE TABLE `bill_items` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `invoice_no` varchar(50) DEFAULT NULL,
+  `spice_name` varchar(100) DEFAULT NULL,
+  `quantity` decimal(10,2) DEFAULT NULL,
+  `rate` decimal(10,2) DEFAULT NULL,
+  `subtotal` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `invoice_no` (`invoice_no`),
+  CONSTRAINT `bill_items_ibfk_1` FOREIGN KEY (`invoice_no`) REFERENCES `bills` (`invoice_no`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Sample data for `bill_items`
+INSERT INTO `bill_items` (`id`, `invoice_no`, `spice_name`, `quantity`, `rate`, `subtotal`) VALUES
+(11, 'HT-459F3B', 'Dill Seeds', '2.00', '80.00', '160.00'),
+(19, 'HT-C427FB', 'Black Cumin', '3.00', '220.00', '660.00'),
+(20, 'HT-60991F', 'Coriander Sticks', '4.00', '180.00', '720.00'),
+(21, 'HT-498D35', 'Lemon Powder', '2.00', '100.00', '200.00'),
+(22, 'HT-37AF2B', 'Chili Flakes', '2.00', '150.00', '300.00'),
+(23, 'HT-37AF2B', 'Coconut Powder', '4.00', '200.00', '800.00'),
+(24, 'HT-37AF2B', 'Dry Mango Powder (Amchur)', '2.00', '150.00', '300.00');
+
+-- --------------------------------------------------------
+-- Table structure for table `invoices`
+-- --------------------------------------------------------
+CREATE TABLE `invoices` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `invoice_no` varchar(20) NOT NULL,
+  `buyer_name` varchar(100) NOT NULL,
+  `buyer_phone` varchar(20) DEFAULT NULL,
+  `total_amount` decimal(10,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Sample data for `invoices`
+INSERT INTO `invoices` (`id`, `invoice_no`, `buyer_name`, `buyer_phone`, `total_amount`, `created_at`) VALUES
+(1, 'HT-4108', 'hinkaer', '234234', '3350.00', '2026-03-13 06:41:29'),
+(2, 'HT-4208', 'hinkar', '12634653', '550.00', '2026-03-13 06:42:19');
+
+-- --------------------------------------------------------
+-- Table structure for table `sales_history`
+-- --------------------------------------------------------
+CREATE TABLE `sales_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `invoice_no` varchar(50) DEFAULT NULL,
+  `buyer_name` varchar(100) DEFAULT NULL,
+  `buyer_phone` varchar(20) DEFAULT NULL,
+  `total_amount` decimal(10,2) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `invoice_no` (`invoice_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Sample data for `sales_history`
+INSERT INTO `sales_history` (`id`, `invoice_no`, `buyer_name`, `buyer_phone`, `total_amount`, `created_at`) VALUES
+(1, 'INV-7F85C', 'kama', '234234', '1500.00', '2026-03-13 08:48:25'),
+(2, 'INV-2467E', 'kama', '234234', '1500.00', '2026-03-13 08:48:27'),
+(3, 'INV-ECD22', 'kama', '234234', '1500.00', '2026-03-13 08:49:04'),
+(4, 'INV-3B44D', 'kamaladf', '234234234', '810.00', '2026-03-13 08:52:53'),
+(5, 'INV-AF071', 'asdfasdf', '324213432', '369.60', '2026-03-13 08:56:01'),
+(6, 'INV-EDCDF', 'dfgs', '3423', '300.00', '2026-03-13 08:56:55'),
+(7, 'INV-9F8CE', 'haris', '24234234', '2100.00', '2026-03-13 09:01:09'),
+(8, 'INV-8EDE0', 'fasdf', '324234', '85.00', '2026-03-13 09:03:08'),
+(9, 'INV-BD9D7', 'hinkar', '23423423', '396.00', '2026-03-13 09:03:58');
+
+-- --------------------------------------------------------
+-- Table structure for table `shop_settings`
+-- --------------------------------------------------------
+CREATE TABLE `shop_settings` (
+  `setting_key` varchar(50) NOT NULL,
+  `setting_value` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`setting_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Sample data for `shop_settings`
+INSERT INTO `shop_settings` (`setting_key`, `setting_value`) VALUES
+('pending_lorries', '0');
+
+-- --------------------------------------------------------
+-- Table structure for table `spices`
+-- --------------------------------------------------------
+CREATE TABLE `spices` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `spice_name` varchar(100) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `quantity` decimal(10,2) NOT NULL,
+  `branch` enum('HINKAR SHOP','GODOWN1','GODOWN2') NOT NULL,
+  `stock_quantity` decimal(10,2) DEFAULT 0.00,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Sample data for `spices` (partial, add more as needed)
+INSERT INTO `spices` (`id`, `spice_name`, `price`, `quantity`, `branch`, `stock_quantity`) VALUES
+(1, 'Black Pepper', '500.00', '0.00', 'HINKAR SHOP', '0.00'),
+(2, 'Cumin Seeds', '200.00', '0.00', 'HINKAR SHOP', '0.00'),
+(3, 'Turmeric', '150.00', '20.00', 'GODOWN2', '0.00'),
+(4, 'Coriander', '180.00', '12.00', 'GODOWN1', '0.00');
+
+-- --------------------------------------------------------
+-- Table structure for table `spice_invoices`
+-- --------------------------------------------------------
+CREATE TABLE `spice_invoices` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `invoice_no` varchar(50) DEFAULT NULL,
+  `spice_name` varchar(100) DEFAULT NULL,
+  `quantity` decimal(10,2) DEFAULT NULL,
+  `rate` decimal(10,2) DEFAULT NULL,
+  `subtotal` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `invoice_no` (`invoice_no`),
+  CONSTRAINT `spice_invoices_ibfk_1` FOREIGN KEY (`invoice_no`) REFERENCES `sales_history` (`invoice_no`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Sample data for `spice_invoices`
+INSERT INTO `spice_invoices` (`id`, `invoice_no`, `spice_name`, `quantity`, `rate`, `subtotal`) VALUES
+(1, 'INV-ECD22', 'Saffron', '1.00', '1500.00', '1500.00'),
+(2, 'INV-3B44D', 'Ginger Paste', '5.00', '180.00', '900.00');
+
+-- --------------------------------------------------------
+-- Table structure for table `users`
+-- --------------------------------------------------------
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(50) DEFAULT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `role` varchar(20) DEFAULT 'Staff',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Sample data for `users`
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `password`, `phone`, `role`) VALUES
+(1, NULL, NULL, 'admin123', 'admin123', NULL, 'Staff'),
+(5, NULL, NULL, 'haris', 'haris', NULL, 'Staff'),
+(7, NULL, NULL, 'hinkar', 'hinkar', NULL, 'Staff'),
+(11, NULL, NULL, 'admin', 'haris', NULL, 'Staff'),
+(14, NULL, NULL, 'ajay', 'ajay', NULL, 'Staff');
